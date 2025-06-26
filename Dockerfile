@@ -5,6 +5,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 WORKDIR /app
 
-COPY src/fetch_v0.1.py .
+COPY src/fetch_v1.0.py .
 
-CMD ["python", "fetch_v0.1.py"]
+CMD ["python", "fetch_v1.0.py"]
