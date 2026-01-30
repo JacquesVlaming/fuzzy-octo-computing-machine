@@ -1,0 +1,23 @@
+services:
+  fetcher:
+    build: .
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      - FORTI_API_URL=https://eu-0.fortidlp.forticloud.com/api/siem?stream_id=db09a6f3-e6aa-46c6-7ff5-432ac8d301f2
+      - FORTI_API_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJqYXp6Iiwic3ViIjoiNTgxNWU5MDAtNTIxMy00MjFkLTY0NjktNWIzNTI2NjM3YWE2L21zc3A6Ly81ODE1ZTkwMC01MjEzLTQyMWQtNjQ2OS01YjM1MjY2MzdhYTYvNzk3ZDcyYTktZTk4NS00YTdiLTk2MmQtOWEwNzUxNjViOGFiP2VtYWlsPWNua3VuYSU0MGRhdGFjZW50cml4LmNvLnphXHUwMDI2cGFydG5lcj1EYXRhY2VudHJpeCIsImF1ZCI6WyJwYXQiXSwiZXhwIjoyMDY2MDM4MjU0LCJuYmYiOjE3NTA2NzgxOTQsImlhdCI6MTc1MDY3ODI1NCwianRpIjoiMDUzNzRlMzAtYTE3NC00ODcxLTZkMTgtNWNjYTc0ZjY4NDllIiwidGVuYW50IjoiNTgxNWU5MDAtNTIxMy00MjFkLTY0NjktNWIzNTI2NjM3YWE2Iiwib3BlcmF0b3IiOiJtc3NwOi8vNTgxNWU5MDAtNTIxMy00MjFkLTY0NjktNWIzNTI2NjM3YWE2Lzc5N2Q3MmE5LWU5ODUtNGE3Yi05NjJkLTlhMDc1MTY1YjhhYj9lbWFpbD1jbmt1bmElNDBkYXRhY2VudHJpeC5jby56YVx1MDAyNnBhcnRuZXI9RGF0YWNlbnRyaXgiLCJsb2dpbnNvdXJjZSI6ImZvcnRpY2xvdWQiLCJyb2xlcyI6WyJGaWxlYmVhdC1TSUVNLUludGVncmF0aW9uICJdLCJkaXNwbGF5bmFtZSI6IkZvcnRpIERMUCBFbGFzdGljIHN0cmVhbSIsInVyaSI6Im9wZXJhdG9yOi8vbXNzcCUzQSUyRiUyRjU4MTVlOTAwLTUyMTMtNDIxZC02NDY5LTViMzUyNjYzN2FhNiUyRjc5N2Q3MmE5LWU5ODUtNGE3Yi05NjJkLTlhMDc1MTY1YjhhYiUzRmVtYWlsPWNua3VuYSUyNTQwZGF0YWNlbnRyaXguY28uemFcdTAwMjZwYXJ0bmVyPURhdGFjZW50cml4QGRvbWFpbj9uYW1lPUZvcnRpK0RMUCtFbGFzdGljK3N0cmVhbSJ9.o8lPT5cfWwciTF1bL3j2lGGAzBK9Oz2wqa2hAIrPWE0
+      - TIME_TO_SLEEP=15
+
+  elastic-agent:
+    image: docker.elastic.co/beats/elastic-agent:8.18.2
+    restart: always
+    environment:
+      - FLEET_ENROLL=1
+      - FLEET_ENROLLMENT_TOKEN=SFZxcG9aY0I1elFLZDRwWVRObU86dThRVEFHWVgwZVhvbmF2ZlA0bXozZw==
+      - FLEET_URL=https://1be4376d4a9e46d3953d1db47193ff26.fleet.af-south-1.aws.elastic-cloud.com:9243
+    pid: "host"
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs:/app/logs
+
